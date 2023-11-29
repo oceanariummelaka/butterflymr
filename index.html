@@ -5,6 +5,33 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
+    <script>
+      const video = document.querySelector("video");
+const canvas = document.createElement("canvas");
+video.pause();
+
+// Obtain the view style data of the video
+const style = window.getComputedStyle(video),
+  width = parseFloat(style.getPropertyValue('width')),
+  height = parseFloat(style.getPropertyValue('height')),
+  top = parseFloat(style.getPropertyValue('top')),
+  left = parseFloat(style.getPropertyValue('left'));
+
+// The width and height of the video may exceed the screen to achieve a full screen effect, 
+// so screenshots need to only capture the visible part of the video.
+const imgLeft = left * video.videoWidth / width
+const imgTop = top * video.videoHeight / height
+const drawLeft = imgLeft > 0 ? 0 : imgLeft
+const drawTop = imgTop > 0 ? 0 : imgTop
+const drawWidth = video.videoWidth
+const drawHeight = video.videoHeight
+canvas.width = video.videoWidth + imgLeft * 2
+canvas.height = video.videoHeight + imgTop * 2
+
+// render
+canvas.getContext('2d').drawImage(video, drawLeft, drawTop, drawWidth, drawHeight);
+video.play()  });
+    </script>
   </head>
   <body>
     <a-scene mindar-image="imageTargetSrc: targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
