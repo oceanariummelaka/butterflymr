@@ -5,44 +5,10 @@
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
-    <script>
-      import './main.css'
-      AFRAME.registerComponent('button', {
-  init() {
-    const btn = document.getElementById('click me')
-    btn.addEventListener('click', () => {
-const video = document.querySelector("video");
-const canvas = document.createElement("canvas");
-video.pause();
-
-// Obtain the view style data of the video
-const style = window.getComputedStyle(video),
-  width = parseFloat(style.getPropertyValue('width')),
-  height = parseFloat(style.getPropertyValue('height')),
-  top = parseFloat(style.getPropertyValue('top')),
-  left = parseFloat(style.getPropertyValue('left'));
-
-// The width and height of the video may exceed the screen to achieve a full screen effect, 
-// so screenshots need to only capture the visible part of the video.
-const imgLeft = left * video.videoWidth / width
-const imgTop = top * video.videoHeight / height
-const drawLeft = imgLeft > 0 ? 0 : imgLeft
-const drawTop = imgTop > 0 ? 0 : imgTop
-const drawWidth = video.videoWidth
-const drawHeight = video.videoHeight
-canvas.width = video.videoWidth + imgLeft * 2
-canvas.height = video.videoHeight + imgTop * 2
-
-// render
-canvas.getContext('2d').drawImage(video, drawLeft, drawTop, drawWidth, drawHeight);
-video.play()
-  }
-}) </script>
-    </script>
+    
   </head>
   <body>
-   <button id="myButton">click me</button> 
-    <a-scene mindar-image="imageTargetSrc: targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+     <a-scene mindar-image="imageTargetSrc: targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="near: 10; far: 10000; objects: .clickable"></a-camera>
       <a-entity mindar-image-target="targetIndex: 0">
         <a-entity id="example-3D" gltf-model="butterflygroup.glb" animation-mixer="clip: *;" class="clickable" position="0 0 0" rotation="0 0 0" scale="0.25 0.25 0.25"></a-entity>
